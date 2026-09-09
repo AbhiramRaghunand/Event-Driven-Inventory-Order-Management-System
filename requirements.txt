@@ -1,0 +1,10 @@
+FastAPI
+uvicorn
+SQLAlchemy
+Alembic
+psycopg2
+PyJWT
+passlib[bcrypt]
+pydantic-settings
+psycopg2-binary
+asyncpg
