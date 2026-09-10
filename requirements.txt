@@ -6,5 +6,6 @@ psycopg2
 PyJWT
 passlib[bcrypt]
 pydantic-settings
+email-validator
 psycopg2-binary
 asyncpg
