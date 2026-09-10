@@ -1,10 +1,12 @@
 from fastapi import FastAPI
 
 from app.routes.auth import router as auth_router
+from app.routes.product import router as prod_router
 
 
 app = FastAPI(title="BEA API")
 app.include_router(auth_router)
+app.include_router(prod_router)
 
 
 @app.get("/")
