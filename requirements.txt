@@ -9,3 +9,7 @@ pydantic-settings
 email-validator
 psycopg2-binary
 asyncpg
+pytest
+pytest-asyncio
+httpx
+requests
