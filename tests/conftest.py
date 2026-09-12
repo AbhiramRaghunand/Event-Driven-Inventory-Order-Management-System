@@ -119,7 +119,10 @@ async def client():
     Create an async HTTP client connected directly to the FastAPI app.
     """
 
-    transport = httpx.ASGITransport(app=app)
+    transport = httpx.ASGITransport(
+        app=app,
+        raise_app_exceptions=False
+    )
 
     async with httpx.AsyncClient(
         transport=transport,
