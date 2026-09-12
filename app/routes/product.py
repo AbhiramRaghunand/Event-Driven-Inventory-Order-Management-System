@@ -7,11 +7,28 @@ from app.crud import product as crud_product
 from app.core.dependencies import get_current_user, require_admin
 from app.models.user import User
 
+from app.events.events import Event, EventType
+from app.events.publisher import publish_event
+
 router=APIRouter(prefix="/products",tags=["Products"])
 
 @router.post("/",response_model=ProductResponse)
 def create_product(product:ProductCreate,db:Session=Depends(get_db),current_user:User=Depends(require_admin)):
-    return crud_product.create_product(db,product)
+    new_product = crud_product.create_product(db, product)
+
+    event = Event(
+        event_type=EventType.PRODUCT_CREATED,
+        data={
+            "product_id": new_product.id,
+            "name": new_product.name,
+            "price": new_product.price,
+            "stock_quantity": new_product.stock_quantity
+        }
+    )
+
+    publish_event(event)
+
+    return new_product
 
 @router.get("/", response_model=list[ProductResponse])
 def get_products(
@@ -49,7 +66,21 @@ def update_product(product_id:int,product:ProductUpdate,db:Session=Depends(get_d
             detail="product not found"
         )
 
-    return crud_product.update_product(db,db_product,product)
+    updated_product = crud_product.update_product(db, db_product, product)
+
+    event = Event(
+        event_type=EventType.PRODUCT_UPDATED,
+        data={
+            "product_id": updated_product.id,
+            "name": updated_product.name,
+            "price": updated_product.price,
+            "stock_quantity": updated_product.stock_quantity
+        }
+    )
+
+    publish_event(event)
+
+    return updated_product
 
 @router.delete("/{product_id}")
 def delete_product(product_id:int, db:Session=Depends(get_db),current_user:User=Depends(require_admin)):
@@ -61,10 +92,20 @@ def delete_product(product_id:int, db:Session=Depends(get_db),current_user:User=
             detail="product not found"
             )
 
-    crud_product.delete_product(db,db_prod)
+    crud_product.delete_product(db, db_prod)
+
+    event = Event(
+        event_type=EventType.PRODUCT_DELETED,
+        data={
+            "product_id": db_prod.id,
+            "name": db_prod.name
+        }
+    )
+
+    publish_event(event)
 
     return {
-        "message":"Product Deleted Successfully"
+        "message": "Product Deleted Successfully"
     }
 
 
