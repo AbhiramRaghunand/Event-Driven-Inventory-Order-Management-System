@@ -13,7 +13,7 @@ from app.models.order_item import OrderItem
 
 router=APIRouter(prefix="/orders",tags=["Orders"])
 
-@router.post("/",response_model=OrderResponse)
+@router.post("/",response_model=OrderResponse,status_code=status.HTTP_201_CREATED)
 def create_order(order:OrderCreate,db:Session=Depends(get_db),current_user:User=Depends(get_current_user)):
     try:
         if current_user.role != UserRole.CUSTOMER:
@@ -21,17 +21,25 @@ def create_order(order:OrderCreate,db:Session=Depends(get_db),current_user:User=
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Only customers can place orders"
             )
-        products=[]
+
+        quantities={}
         for item in order.items:
-            product=db.query(Product).filter(Product.id==item.product_id).first()
+            quantities[item.product_id]=(
+                quantities.get(item.product_id,0)+item.quantity
+            )
+
+        products={}
+        for product_id in sorted(quantities):
+            product=db.query(Product).filter(Product.id==product_id).with_for_update().first()
 
             if product is None:
-                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Product not found")
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"Product {product_id} not found")
 
-            if product.stock_quantity<item.quantity:
+            quantity=quantities[product_id]
+            if product.stock_quantity<quantity:
                 raise HTTPException(status_code=status.HTTP_409_CONFLICT,detail=f"Insufficient quantity for product {product.id}")
 
-            products.append(product)
+            products[product_id]=product
 
         new_order=Order(
             user_id=current_user.id,
@@ -41,13 +49,16 @@ def create_order(order:OrderCreate,db:Session=Depends(get_db),current_user:User=
         db.add(new_order)
         db.flush()
 
-        for item,product in zip(order.items,products):
-            product.stock_quantity-=item.quantity
+        for product_id in sorted(quantities):
+            product=products[product_id]
+            quantity=quantities[product_id]
+
+            product.stock_quantity-=quantity
 
             order_item=OrderItem(
                 order_id=new_order.id,
-                product_id=product.id,
-                quantity=item.quantity
+                product_id=product_id,
+                quantity=quantity
             )
 
             db.add(order_item)
