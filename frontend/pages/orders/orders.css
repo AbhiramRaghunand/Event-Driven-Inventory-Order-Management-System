@@ -1,0 +1,1540 @@
+/* ============================================================
+   APPLICATION LAYOUT
+   ============================================================ */
+
+.app-layout {
+    min-height: 100vh;
+
+    display: flex;
+
+    background: var(--background);
+}
+
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+
+.sidebar {
+    width: 250px;
+
+    min-height: 100vh;
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    background: var(--surface);
+
+    border-right: 1px solid var(--border);
+
+    z-index: 100;
+}
+
+
+/* ============================================================
+   SIDEBAR BRAND
+   ============================================================ */
+
+.sidebar-brand {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 22px 20px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+
+.brand-mark {
+    width: 34px;
+
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: var(--radius-small);
+
+    background: var(--primary);
+
+    color: white;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.03em;
+}
+
+
+.sidebar-brand h1 {
+    color: var(--text-primary);
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    line-height: 1.25;
+}
+
+
+.sidebar-brand span {
+    display: block;
+
+    margin-top: 2px;
+
+    color: var(--text-muted);
+
+    font-size: 10px;
+
+    line-height: 1.2;
+}
+
+
+/* ============================================================
+   SIDEBAR NAVIGATION
+   ============================================================ */
+
+.sidebar-navigation {
+    flex: 1;
+
+    overflow: hidden;
+
+    padding: 18px 12px;
+}
+
+
+.navigation-section {
+    margin-bottom: 23px;
+}
+
+
+.navigation-label {
+    padding: 0 10px;
+
+    margin-bottom: 7px;
+
+    color: var(--text-muted);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+}
+
+
+.navigation-item {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 9px 10px;
+
+    margin-bottom: 2px;
+
+    border: 1px solid transparent;
+
+    border-radius: var(--radius-small);
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+
+.navigation-item:hover {
+    background: var(--surface-secondary);
+
+    color: var(--text-primary);
+}
+
+
+.navigation-item.active {
+    background: #eef2f7;
+
+    border-color: #e2e8f0;
+
+    color: var(--primary);
+
+    font-weight: 650;
+}
+
+
+.navigation-icon {
+    width: 18px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    color: var(--text-muted);
+
+    font-size: 14px;
+
+    line-height: 1;
+}
+
+
+.navigation-item.active .navigation-icon {
+    color: var(--primary);
+}
+
+
+/* ============================================================
+   SIDEBAR BOTTOM
+   ============================================================ */
+
+.sidebar-bottom {
+    padding: 12px;
+
+    border-top: 1px solid var(--border);
+}
+
+
+.logout-button {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 9px 10px;
+
+    border: 1px solid transparent;
+
+    border-radius: var(--radius-small);
+
+    background: transparent;
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+    text-align: left;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease;
+}
+
+
+.logout-button:hover {
+    background: var(--surface-secondary);
+
+    color: var(--danger);
+}
+
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+
+.main-content {
+    width: calc(100% - 250px);
+
+    min-height: 100vh;
+
+    margin-left: 250px;
+}
+
+
+/* ============================================================
+   TOPBAR
+   ============================================================ */
+
+.topbar {
+    min-height: 76px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 15px 32px;
+
+    background: var(--surface);
+
+    border-bottom: 1px solid var(--border);
+}
+
+
+.topbar-label {
+    margin-bottom: 3px;
+
+    color: var(--text-muted);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+}
+
+
+.topbar h2 {
+    color: var(--text-primary);
+
+    font-size: 20px;
+
+    font-weight: 650;
+
+    line-height: 1.25;
+}
+
+
+.topbar-user {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+}
+
+
+.user-info {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-end;
+
+    gap: 2px;
+}
+
+
+.user-email {
+    color: var(--text-primary);
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+.user-role {
+    color: var(--text-muted);
+
+    font-size: 9px;
+
+    text-transform: capitalize;
+}
+
+
+.user-avatar {
+    width: 34px;
+
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--surface-secondary);
+
+    border: 1px solid var(--border);
+
+    color: var(--primary);
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+/* ============================================================
+   ORDERS PAGE
+   ============================================================ */
+
+.orders-content {
+    padding: 30px 32px 40px;
+}
+
+
+/* ============================================================
+   PAGE HEADER
+   ============================================================ */
+
+.page-header {
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 24px;
+
+    margin-bottom: 24px;
+}
+
+
+.page-eyebrow {
+    color: var(--text-muted);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+
+    margin-bottom: 5px;
+}
+
+
+.page-header h3 {
+    color: var(--text-primary);
+
+    font-size: 23px;
+
+    font-weight: 650;
+
+    margin-bottom: 5px;
+}
+
+
+.page-description {
+    color: var(--text-secondary);
+
+    font-size: 12px;
+}
+
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+.secondary-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    border: 1px solid var(--border);
+
+    background: var(--surface);
+
+    color: var(--primary);
+
+    border-radius: var(--radius-small);
+
+    padding: 8px 13px;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease;
+}
+
+
+.secondary-button:hover {
+    background: var(--surface-secondary);
+
+    border-color: #cbd5e1;
+}
+
+
+.secondary-button:disabled {
+    opacity: 0.6;
+
+    cursor: not-allowed;
+}
+
+
+.refresh-button {
+    white-space: nowrap;
+}
+
+
+.refresh-button span {
+    font-size: 15px;
+
+    line-height: 1;
+}
+
+
+/* ============================================================
+   MESSAGES
+   ============================================================ */
+
+.page-error,
+.page-success {
+    border-radius: var(--radius-small);
+
+    padding: 10px 13px;
+
+    font-size: 12px;
+
+    margin-bottom: 18px;
+}
+
+
+.page-error {
+    color: var(--danger);
+
+    background: var(--danger-background);
+
+    border: 1px solid #fecaca;
+}
+
+
+.page-success {
+    color: var(--success);
+
+    background: var(--success-background);
+
+    border: 1px solid #bbf7d0;
+}
+
+
+/* ============================================================
+   ORDER SUMMARY
+   ============================================================ */
+
+.order-summary {
+    display: flex;
+
+    align-items: center;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-medium);
+
+    box-shadow: var(--shadow-small);
+
+    margin-bottom: 22px;
+
+    min-height: 82px;
+}
+
+
+.summary-item {
+    flex: 1;
+
+    padding: 16px 22px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.summary-item span {
+    color: var(--text-secondary);
+
+    font-size: 11px;
+
+    font-weight: 500;
+}
+
+
+.summary-item strong {
+    color: var(--text-primary);
+
+    font-size: 20px;
+
+    font-weight: 650;
+}
+
+
+.summary-divider {
+    width: 1px;
+
+    height: 38px;
+
+    background: var(--border);
+}
+
+
+/* ============================================================
+   ORDERS CARD
+   ============================================================ */
+
+.orders-card {
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-large);
+
+    box-shadow: var(--shadow-small);
+
+    overflow: hidden;
+}
+
+
+.card-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 19px 21px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+
+.card-header h3 {
+    color: var(--text-primary);
+
+    font-size: 14px;
+
+    font-weight: 650;
+
+    margin-bottom: 3px;
+}
+
+
+.card-header p {
+    color: var(--text-secondary);
+
+    font-size: 11px;
+}
+
+
+/* ============================================================
+   TABLE
+   ============================================================ */
+
+.orders-table-container {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+
+.orders-table {
+    width: 100%;
+
+    min-width: 760px;
+
+    border-collapse: collapse;
+}
+
+
+.orders-table th {
+    background: var(--surface-secondary);
+
+    color: var(--text-secondary);
+
+    font-size: 10px;
+
+    font-weight: 650;
+
+    text-align: left;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.04em;
+
+    padding: 11px 17px;
+
+    border-bottom: 1px solid var(--border);
+
+    white-space: nowrap;
+}
+
+
+.orders-table td {
+    color: var(--text-primary);
+
+    font-size: 12px;
+
+    padding: 14px 17px;
+
+    border-bottom: 1px solid var(--border);
+
+    vertical-align: middle;
+}
+
+
+.orders-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+.orders-table tbody tr:hover {
+    background: #fafbfc;
+}
+
+
+.order-id {
+    color: var(--primary);
+
+    font-weight: 650;
+}
+
+
+.customer-id {
+    color: var(--text-secondary);
+
+    font-size: 11px;
+}
+
+
+.items-count-cell {
+    color: var(--text-secondary);
+
+    font-size: 11px;
+}
+
+
+.order-date {
+    color: var(--text-secondary);
+
+    font-size: 11px;
+
+    white-space: nowrap;
+}
+
+
+/* ============================================================
+   STATUS BADGES
+   ============================================================ */
+
+.status-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 999px;
+
+    padding: 4px 9px;
+
+    font-size: 10px;
+
+    font-weight: 650;
+
+    text-transform: capitalize;
+
+    white-space: nowrap;
+}
+
+
+.status-confirmed {
+    color: var(--success);
+
+    background: var(--success-background);
+
+    border: 1px solid #bbf7d0;
+}
+
+
+.status-cancelled {
+    color: var(--danger);
+
+    background: var(--danger-background);
+
+    border: 1px solid #fecaca;
+}
+
+
+/* ============================================================
+   ACTIONS
+   ============================================================ */
+
+.actions-cell {
+    white-space: nowrap;
+}
+
+
+.action-button {
+    border: 1px solid var(--border);
+
+    background: var(--surface);
+
+    color: var(--primary);
+
+    border-radius: var(--radius-small);
+
+    padding: 6px 10px;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    margin-right: 5px;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease;
+}
+
+
+.action-button:hover {
+    background: var(--surface-secondary);
+
+    border-color: #cbd5e1;
+}
+
+
+.cancel-action-button {
+    color: var(--danger);
+
+    border-color: #fecaca;
+}
+
+
+.cancel-action-button:hover {
+    background: var(--danger-background);
+
+    border-color: #fca5a5;
+}
+
+
+/* ============================================================
+   LOADING STATE
+   ============================================================ */
+
+.loading-state {
+    padding: 45px 20px;
+
+    text-align: center;
+
+    color: var(--text-muted);
+
+    font-size: 12px;
+}
+
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+
+.empty-state {
+    padding: 55px 20px;
+
+    text-align: center;
+}
+
+
+.empty-icon {
+    width: 42px;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin: 0 auto 11px;
+
+    border-radius: 50%;
+
+    background: var(--surface-secondary);
+
+    color: var(--text-muted);
+
+    font-size: 18px;
+}
+
+
+.empty-state h4 {
+    color: var(--text-primary);
+
+    font-size: 13px;
+
+    font-weight: 650;
+
+    margin-bottom: 4px;
+}
+
+
+.empty-state p {
+    color: var(--text-secondary);
+
+    font-size: 11px;
+}
+
+
+/* ============================================================
+   MODAL OVERLAY
+   ============================================================ */
+
+.modal-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(15, 23, 42, 0.38);
+}
+
+
+.modal {
+    width: 100%;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-large);
+
+    box-shadow: var(--shadow-medium);
+
+    overflow: hidden;
+}
+
+
+.order-details-modal {
+    max-width: 620px;
+}
+
+
+.cancel-modal {
+    max-width: 470px;
+}
+
+
+/* ============================================================
+   MODAL HEADER
+   ============================================================ */
+
+.modal-header {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 20px 21px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+
+.modal-eyebrow {
+    color: var(--text-muted);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+
+    margin-bottom: 4px;
+}
+
+
+.danger-eyebrow {
+    color: var(--danger);
+}
+
+
+.modal-header h3 {
+    color: var(--text-primary);
+
+    font-size: 16px;
+
+    font-weight: 650;
+}
+
+
+.modal-header p:not(.modal-eyebrow) {
+    color: var(--text-secondary);
+
+    font-size: 11px;
+
+    margin-top: 4px;
+}
+
+
+.modal-close {
+    width: 29px;
+
+    height: 29px;
+
+    border: 1px solid var(--border);
+
+    background: var(--surface);
+
+    color: var(--text-secondary);
+
+    border-radius: var(--radius-small);
+
+    font-size: 19px;
+
+    line-height: 1;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+
+.modal-close:hover {
+    background: var(--surface-secondary);
+
+    color: var(--text-primary);
+}
+
+
+/* ============================================================
+   ORDER DETAILS
+   ============================================================ */
+
+.order-details-content {
+    padding: 21px;
+}
+
+
+.details-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 12px;
+
+    margin-bottom: 23px;
+}
+
+
+.detail-item {
+    padding: 13px;
+
+    background: var(--surface-secondary);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-medium);
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+
+.detail-item span {
+    color: var(--text-muted);
+
+    font-size: 9px;
+
+    font-weight: 650;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.04em;
+}
+
+
+.detail-item strong {
+    color: var(--text-primary);
+
+    font-size: 12px;
+
+    font-weight: 650;
+}
+
+
+/* ============================================================
+   ORDER ITEMS
+   ============================================================ */
+
+.details-items-section {
+    border-top: 1px solid var(--border);
+
+    padding-top: 19px;
+}
+
+
+.details-section-heading {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 11px;
+}
+
+
+.details-section-heading h4 {
+    color: var(--text-primary);
+
+    font-size: 12px;
+
+    font-weight: 650;
+
+    margin-bottom: 2px;
+}
+
+
+.details-section-heading p {
+    color: var(--text-secondary);
+
+    font-size: 10px;
+}
+
+
+.items-count {
+    min-width: 26px;
+
+    height: 26px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--surface-secondary);
+
+    color: var(--text-secondary);
+
+    font-size: 10px;
+
+    font-weight: 650;
+}
+
+
+.details-items-list {
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-medium);
+
+    overflow: hidden;
+}
+
+
+.detail-product-row {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 12px 14px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+
+.detail-product-row:last-child {
+    border-bottom: none;
+}
+
+
+.detail-product-info {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+.detail-product-icon {
+    width: 31px;
+
+    height: 31px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: var(--radius-small);
+
+    background: var(--surface-secondary);
+
+    color: var(--primary);
+
+    font-size: 10px;
+
+    font-weight: 650;
+}
+
+
+.detail-product-name {
+    color: var(--text-primary);
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+.detail-product-id {
+    color: var(--text-muted);
+
+    font-size: 9px;
+
+    margin-top: 2px;
+}
+
+
+.detail-product-quantity {
+    color: var(--text-secondary);
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+.details-empty {
+    padding: 20px;
+
+    text-align: center;
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+}
+
+
+/* ============================================================
+   CANCEL MODAL
+   ============================================================ */
+
+.cancel-modal-content {
+    display: flex;
+
+    gap: 13px;
+
+    padding: 22px 21px;
+}
+
+
+.warning-symbol {
+    flex: 0 0 auto;
+
+    width: 35px;
+
+    height: 35px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--warning-background);
+
+    border: 1px solid #fde68a;
+
+    color: var(--warning);
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+
+.cancel-modal-content p {
+    color: var(--text-secondary);
+
+    font-size: 12px;
+
+    line-height: 1.55;
+}
+
+
+.cancel-modal-content strong {
+    color: var(--text-primary);
+
+    font-weight: 650;
+}
+
+
+.cancel-note {
+    margin-top: 7px;
+
+    font-size: 10px !important;
+
+    color: var(--text-muted) !important;
+}
+
+
+/* ============================================================
+   DANGER BUTTON
+   ============================================================ */
+
+.danger-button {
+    border: 1px solid var(--danger);
+
+    background: var(--danger);
+
+    color: white;
+
+    border-radius: var(--radius-small);
+
+    padding: 8px 13px;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease;
+}
+
+
+.danger-button:hover {
+    background: #991b1b;
+
+    border-color: #991b1b;
+}
+
+
+.danger-button:disabled {
+    opacity: 0.6;
+
+    cursor: not-allowed;
+}
+
+
+/* ============================================================
+   MODAL ACTIONS
+   ============================================================ */
+
+.modal-actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 8px;
+
+    padding: 14px 21px;
+
+    border-top: 1px solid var(--border);
+
+    background: #fafbfc;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+    .sidebar {
+        width: 220px;
+    }
+
+
+    .main-content {
+        width: calc(100% - 220px);
+
+        margin-left: 220px;
+    }
+
+
+    .topbar {
+        padding-left: 24px;
+
+        padding-right: 24px;
+    }
+
+
+    .orders-content {
+        padding: 24px 20px 32px;
+    }
+
+}
+
+
+@media (max-width: 720px) {
+
+    .sidebar {
+        position: static;
+
+        width: 100%;
+
+        min-height: auto;
+    }
+
+
+    .app-layout {
+        display: block;
+    }
+
+
+    .main-content {
+        width: 100%;
+
+        margin-left: 0;
+    }
+
+
+    .sidebar-navigation {
+        padding: 10px 12px;
+    }
+
+
+    .navigation-section {
+        margin-bottom: 12px;
+    }
+
+
+    .topbar {
+        padding: 15px 18px;
+    }
+
+
+    .orders-content {
+        padding: 20px 16px 30px;
+    }
+
+
+    .page-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+
+    .refresh-button {
+        align-self: flex-start;
+    }
+
+
+    .order-summary {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+
+    .summary-divider {
+        width: auto;
+
+        height: 1px;
+
+        margin: 0 18px;
+    }
+
+
+    .summary-item {
+        padding: 13px 18px;
+    }
+
+}
+
+
+@media (max-width: 520px) {
+
+    .topbar-user {
+        gap: 7px;
+    }
+
+
+    .user-info {
+        display: none;
+    }
+
+
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .modal-overlay {
+        padding: 10px;
+    }
+
+
+    .modal-header,
+    .order-details-content {
+        padding-left: 16px;
+
+        padding-right: 16px;
+    }
+
+
+    .cancel-modal-content {
+        padding-left: 16px;
+
+        padding-right: 16px;
+    }
+
+
+    .modal-actions {
+        padding-left: 16px;
+
+        padding-right: 16px;
+    }
+
+}

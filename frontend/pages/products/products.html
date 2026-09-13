@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Products | Inventory Management System</title>
+
+    <link
+        rel="stylesheet"
+        href="/frontend/assets/css/global.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/frontend/pages/products/products.css"
+    >
+
+</head>
+
+<body>
+
+<div class="app-layout">
+
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-mark">
+                IM
+            </div>
+
+            <div>
+
+                <h1>
+                    Inventory Management
+                </h1>
+
+                <span>
+                    Enterprise System
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-navigation">
+
+            <!-- MAIN -->
+
+            <div class="navigation-section">
+
+                <p class="navigation-label">
+                    MAIN
+                </p>
+
+
+                <a
+                    href="/frontend/pages/dashboard/dashboard.html"
+                    class="navigation-item"
+                    id="dashboardNav"
+                >
+
+                    <span class="navigation-icon">
+                        ▦
+                    </span>
+
+                    <span>
+                        Dashboard
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="/frontend/pages/products/products.html"
+                    class="navigation-item active"
+                    id="productsNav"
+                >
+
+                    <span class="navigation-icon">
+                        □
+                    </span>
+
+                    <span>
+                        Products
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="/frontend/pages/orders/orders.html"
+                    class="navigation-item"
+                    id="ordersNav"
+                >
+
+                    <span class="navigation-icon">
+                        ≡
+                    </span>
+
+                    <span>
+                        Orders
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="/frontend/pages/notifications/notifications.html"
+                    class="navigation-item"
+                    id="notificationsNav"
+                >
+
+                    <span class="navigation-icon">
+                        ♢
+                    </span>
+
+                    <span>
+                        Notifications
+                    </span>
+
+                </a>
+
+            </div>
+
+
+            <!-- ADMINISTRATION -->
+
+            <div
+                class="navigation-section hidden"
+                id="adminNavigation"
+            >
+
+                <p class="navigation-label">
+                    ADMINISTRATION
+                </p>
+
+
+                <a
+                    href="/frontend/pages/events/events.html"
+                    class="navigation-item"
+                    id="eventsNav"
+                >
+
+                    <span class="navigation-icon">
+                        ◇
+                    </span>
+
+                    <span>
+                        Events
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="/frontend/pages/users/users.html"
+                    class="navigation-item"
+                    id="usersNav"
+                >
+
+                    <span class="navigation-icon">
+                        ○
+                    </span>
+
+                    <span>
+                        Users
+                    </span>
+
+                </a>
+
+            </div>
+
+
+            <!-- ACCOUNT -->
+
+            <div class="navigation-section">
+
+                <p class="navigation-label">
+                    ACCOUNT
+                </p>
+
+
+                <a
+                    href="/frontend/pages/profile/profile.html"
+                    class="navigation-item"
+                    id="profileNav"
+                >
+
+                    <span class="navigation-icon">
+                        ○
+                    </span>
+
+                    <span>
+                        Profile
+                    </span>
+
+                </a>
+
+            </div>
+
+        </nav>
+
+
+        <!-- SIGN OUT -->
+
+        <div class="sidebar-bottom">
+
+            <button
+                type="button"
+                class="logout-button"
+                id="logoutButton"
+            >
+
+                <span class="navigation-icon">
+                    ←
+                </span>
+
+                <span>
+                    Sign out
+                </span>
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <p class="topbar-label">
+                    INVENTORY MANAGEMENT SYSTEM
+                </p>
+
+                <h2>
+                    Products
+                </h2>
+
+            </div>
+
+
+            <div class="topbar-user">
+
+                <div class="user-info">
+
+                    <span
+                        class="user-email"
+                        id="userEmail"
+                    >
+                        Loading...
+                    </span>
+
+                    <span
+                        class="user-role"
+                        id="userRole"
+                    >
+                        ...
+                    </span>
+
+                </div>
+
+
+                <div class="user-avatar">
+
+                    <span id="userInitial">
+                        U
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             PAGE CONTENT
+             ================================================= -->
+
+        <section class="page-content">
+
+
+            <div class="page-heading">
+
+                <div>
+
+                    <h3>
+                        Product Inventory
+                    </h3>
+
+                    <p>
+                        Manage and monitor the products
+                        currently available in the inventory.
+                    </p>
+
+                </div>
+
+
+                <div class="page-actions">
+
+                    <div class="product-count">
+
+                        <span id="productCount">
+                            0
+                        </span>
+
+                        <small>
+                            products
+                        </small>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="primary-button hidden"
+                        id="addProductButton"
+                    >
+                        Add Product
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- MESSAGES -->
+
+            <div
+                id="errorMessage"
+                class="error-message hidden"
+            ></div>
+
+
+            <div
+                id="successMessage"
+                class="success-message hidden"
+            ></div>
+
+
+            <!-- PRODUCTS CARD -->
+
+            <div class="products-card">
+
+                <div class="table-header">
+
+                    <div>
+
+                        <h3>
+                            All Products
+                        </h3>
+
+                        <p>
+                            Current inventory and stock levels
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        id="refreshButton"
+                        class="refresh-button"
+                    >
+                        Refresh
+                    </button>
+
+                </div>
+
+
+                <!-- LOADING -->
+
+                <div
+                    id="loadingState"
+                    class="loading-state"
+                >
+
+                    <div class="loading-spinner"></div>
+
+                    <p>
+                        Loading products...
+                    </p>
+
+                </div>
+
+
+                <!-- TABLE -->
+
+                <div
+                    id="tableContainer"
+                    class="table-container hidden"
+                >
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>ID</th>
+
+                                <th>Product</th>
+
+                                <th>Price</th>
+
+                                <th>Stock</th>
+
+                                <th>Status</th>
+
+                                <th class="actions-column">
+                                    Actions
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="productsTableBody">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <!-- EMPTY -->
+
+                <div
+                    id="emptyState"
+                    class="empty-state hidden"
+                >
+
+                    <div class="empty-icon">
+                        —
+                    </div>
+
+                    <h3>
+                        No products found
+                    </h3>
+
+                    <p>
+                        There are currently no products
+                        in the inventory.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- ============================================================
+     ADD PRODUCT MODAL
+     ============================================================ -->
+
+<div
+    class="modal-overlay hidden"
+    id="addProductModal"
+>
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+
+                <h3>Add Product</h3>
+
+                <p>
+                    Add a new product to the inventory.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeModalButton"
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form
+            id="addProductForm"
+            class="product-form"
+        >
+
+            <div class="form-group">
+
+                <label for="productName">
+                    Product Name
+                </label>
+
+                <input
+                    type="text"
+                    id="productName"
+                    name="productName"
+                    placeholder="Enter product name"
+                    maxlength="255"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="productPrice">
+                        Price
+                    </label>
+
+                    <input
+                        type="number"
+                        id="productPrice"
+                        name="productPrice"
+                        placeholder="0.00"
+                        min="0.01"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="productStock">
+                        Stock Quantity
+                    </label>
+
+                    <input
+                        type="number"
+                        id="productStock"
+                        name="productStock"
+                        placeholder="0"
+                        min="0"
+                        step="1"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="formError"
+                class="error-message hidden"
+            ></div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    id="cancelModalButton"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                    id="saveProductButton"
+                >
+                    Add Product
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ============================================================
+     EDIT PRODUCT MODAL
+     ============================================================ -->
+
+<div
+    class="modal-overlay hidden"
+    id="editProductModal"
+>
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+
+                <h3>Edit Product</h3>
+
+                <p>
+                    Update the product information.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeEditModalButton"
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form
+            id="editProductForm"
+            class="product-form"
+        >
+
+            <input
+                type="hidden"
+                id="editProductId"
+            >
+
+
+            <div class="form-group">
+
+                <label for="editProductName">
+                    Product Name
+                </label>
+
+                <input
+                    type="text"
+                    id="editProductName"
+                    maxlength="255"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="editProductPrice">
+                        Price
+                    </label>
+
+                    <input
+                        type="number"
+                        id="editProductPrice"
+                        min="0.01"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="editProductStock">
+                        Stock Quantity
+                    </label>
+
+                    <input
+                        type="number"
+                        id="editProductStock"
+                        min="0"
+                        step="1"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="editFormError"
+                class="error-message hidden"
+            ></div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    id="cancelEditModalButton"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                    id="updateProductButton"
+                >
+                    Save Changes
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ============================================================
+     DELETE CONFIRMATION MODAL
+     ============================================================ -->
+
+<div
+    class="modal-overlay hidden"
+    id="deleteProductModal"
+>
+
+    <div class="modal delete-modal">
+
+        <div class="modal-header">
+
+            <div>
+
+                <h3>
+                    Delete Product
+                </h3>
+
+                <p>
+                    This action cannot be undone.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeDeleteModalButton"
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="delete-modal-content">
+
+            <p>
+                Are you sure you want to delete
+                <strong id="deleteProductName">
+                    this product
+                </strong>?
+            </p>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                type="button"
+                class="secondary-button"
+                id="cancelDeleteButton"
+            >
+                Cancel
+            </button>
+
+
+            <button
+                type="button"
+                class="danger-button"
+                id="confirmDeleteButton"
+            >
+                Delete Product
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="/frontend/assets/js/api.js"></script>
+<script src="/frontend/assets/js/auth.js"></script>
+<script src="/frontend/pages/products/products.js"></script>
+
+</body>
+
+</html>

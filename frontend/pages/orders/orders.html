@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Orders | Inventory Management System</title>
+
+    <link
+        rel="stylesheet"
+        href="../../assets/css/global.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="orders.css"
+    >
+
+</head>
+
+
+<body>
+
+<div class="app-layout">
+
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-mark">
+                IM
+            </div>
+
+            <div>
+
+                <h1>
+                    Inventory Management
+                </h1>
+
+                <span>
+                    Enterprise System
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-navigation">
+
+            <div class="navigation-section">
+
+                <p class="navigation-label">
+                    MAIN
+                </p>
+
+
+                <a
+                    href="/frontend/pages/dashboard/dashboard.html"
+                    class="navigation-item"
+                >
+
+                    <span class="navigation-icon">
+                        ▦
+                    </span>
+
+                    <span>
+                        Dashboard
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="/frontend/pages/products/products.html"
+                    class="navigation-item"
+                >
+
+                    <span class="navigation-icon">
+                        □
+                    </span>
+
+                    <span>
+                        Products
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="/frontend/pages/orders/orders.html"
+                    class="navigation-item active"
+                    id="ordersNav"
+                >
+
+                    <span class="navigation-icon">
+                        ≡
+                    </span>
+
+                    <span>
+                        Orders
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="/frontend/pages/notifications/notifications.html"
+                    class="navigation-item"
+                    id="notificationsNav"
+                >
+
+                    <span class="navigation-icon">
+                        ◇
+                    </span>
+
+                    <span>
+                        Notifications
+                    </span>
+
+                </a>
+
+
+            </div>
+
+
+            <div
+                class="navigation-section"
+                id="adminNavigation"
+            >
+
+                <p class="navigation-label">
+                    ADMINISTRATION
+                </p>
+
+
+                <a
+                    href="/frontend/pages/events/events.html"
+                    class="navigation-item"
+                    id="eventsNav"
+                >
+
+                    <span class="navigation-icon">
+                        ◌
+                    </span>
+
+                    <span>
+                        Events
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="/frontend/pages/users/users.html"
+                    class="navigation-item"
+                    id="usersNav"
+                >
+
+                    <span class="navigation-icon">
+                        ◉
+                    </span>
+
+                    <span>
+                        Users
+                    </span>
+
+                </a>
+
+            </div>
+
+
+            <div class="navigation-section">
+
+                <p class="navigation-label">
+                    ACCOUNT
+                </p>
+
+
+                <a
+                    href="/frontend/pages/profile/profile.html"
+                    class="navigation-item"
+                    id="profileNav"
+                >
+
+                    <span class="navigation-icon">
+                        ○
+                    </span>
+
+                    <span>
+                        Profile
+                    </span>
+
+                </a>
+
+            </div>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <button
+                type="button"
+                class="logout-button"
+                id="logoutButton"
+            >
+
+                <span class="navigation-icon">
+                    ←
+                </span>
+
+                <span>
+                    Sign out
+                </span>
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <p class="topbar-label">
+                    INVENTORY MANAGEMENT SYSTEM
+                </p>
+
+                <h2>
+                    Orders
+                </h2>
+
+            </div>
+
+
+            <div class="topbar-user">
+
+                <div class="user-info">
+
+                    <span
+                        class="user-email"
+                        id="userEmail"
+                    >
+                        Loading...
+                    </span>
+
+                    <span
+                        class="user-role"
+                        id="userRole"
+                    >
+                        ...
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="user-avatar"
+                    id="userAvatar"
+                >
+                    U
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             PAGE CONTENT
+             ================================================= -->
+
+        <section class="orders-content">
+
+
+            <!-- PAGE HEADER -->
+
+            <div class="page-header">
+
+                <div>
+
+                    <p class="page-eyebrow">
+                        ORDER MANAGEMENT
+                    </p>
+
+                    <h3>
+                        Order History
+                    </h3>
+
+                    <p class="page-description">
+                        Review and manage your order activity.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="secondary-button refresh-button"
+                    id="refreshButton"
+                >
+
+                    <span>
+                        ↻
+                    </span>
+
+                    Refresh
+
+                </button>
+
+            </div>
+
+
+            <!-- MESSAGES -->
+
+            <div
+                class="page-error hidden"
+                id="errorMessage"
+            ></div>
+
+
+            <div
+                class="page-success hidden"
+                id="successMessage"
+            ></div>
+
+
+            <!-- ORDER SUMMARY -->
+
+            <div class="order-summary">
+
+                <div class="summary-item">
+
+                    <span>
+                        Total Orders
+                    </span>
+
+                    <strong id="orderCount">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-divider"></div>
+
+
+                <div class="summary-item">
+
+                    <span>
+                        Confirmed
+                    </span>
+
+                    <strong id="confirmedCount">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-divider"></div>
+
+
+                <div class="summary-item">
+
+                    <span>
+                        Cancelled
+                    </span>
+
+                    <strong id="cancelledCount">
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- ORDERS CARD -->
+
+            <section class="orders-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h3>
+                            Orders
+                        </h3>
+
+                        <p id="ordersDescription">
+                            Your recent order activity.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LOADING -->
+
+                <div
+                    class="loading-state"
+                    id="loadingState"
+                >
+                    Loading orders...
+                </div>
+
+
+                <!-- TABLE -->
+
+                <div
+                    class="orders-table-container hidden"
+                    id="tableContainer"
+                >
+
+                    <table class="orders-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Order
+                                </th>
+
+                                <th
+                                    id="customerHeader"
+                                >
+                                    Customer
+                                </th>
+
+                                <th>
+                                    Items
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                                <th>
+                                    Actions
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody
+                            id="ordersTableBody"
+                        >
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <!-- EMPTY -->
+
+                <div
+                    class="empty-state hidden"
+                    id="emptyState"
+                >
+
+                    <div class="empty-icon">
+                        ≡
+                    </div>
+
+                    <h4>
+                        No orders found
+                    </h4>
+
+                    <p>
+                        There are currently no orders to display.
+                    </p>
+
+                </div>
+
+            </section>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- ============================================================
+     ORDER DETAILS MODAL
+     ============================================================ -->
+
+<div
+    class="modal-overlay hidden"
+    id="orderDetailsModal"
+>
+
+    <div class="modal order-details-modal">
+
+        <div class="modal-header">
+
+            <div>
+
+                <p class="modal-eyebrow">
+                    ORDER DETAILS
+                </p>
+
+                <h3>
+                    Order <span id="detailsOrderId">#—</span>
+                </h3>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeDetailsModalButton"
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="order-details-content">
+
+
+            <div class="details-grid">
+
+                <div class="detail-item">
+
+                    <span>
+                        Order ID
+                    </span>
+
+                    <strong id="detailsOrderIdValue">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>
+                        Customer ID
+                    </span>
+
+                    <strong id="detailsUserId">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>
+                        Status
+                    </span>
+
+                    <div id="detailsStatus">
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>
+                        Created
+                    </span>
+
+                    <strong id="detailsCreatedAt">
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="details-items-section">
+
+                <div class="details-section-heading">
+
+                    <div>
+
+                        <h4>
+                            Order Items
+                        </h4>
+
+                        <p>
+                            Products included in this order.
+                        </p>
+
+                    </div>
+
+                    <span
+                        class="items-count"
+                        id="detailsItemsCount"
+                    >
+                        0
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="details-items-list"
+                    id="detailsItemsList"
+                >
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                type="button"
+                class="secondary-button"
+                id="closeDetailsButton"
+            >
+                Close
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ============================================================
+     CANCEL CONFIRMATION MODAL
+     ============================================================ -->
+
+<div
+    class="modal-overlay hidden"
+    id="cancelOrderModal"
+>
+
+    <div class="modal cancel-modal">
+
+        <div class="modal-header">
+
+            <div>
+
+                <p class="modal-eyebrow danger-eyebrow">
+                    ORDER CANCELLATION
+                </p>
+
+                <h3>
+                    Cancel Order
+                </h3>
+
+                <p>
+                    This action cannot be undone.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeCancelModalButton"
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="cancel-modal-content">
+
+            <div class="warning-symbol">
+                !
+            </div>
+
+
+            <div>
+
+                <p>
+                    Are you sure you want to cancel
+                    <strong id="cancelOrderName">
+                        this order
+                    </strong>?
+                </p>
+
+                <p class="cancel-note">
+                    Cancelling this order will restore the
+                    reserved product quantities to inventory.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                type="button"
+                class="secondary-button"
+                id="cancelOrderCancelButton"
+            >
+                Keep Order
+            </button>
+
+
+            <button
+                type="button"
+                class="danger-button"
+                id="confirmCancelButton"
+            >
+                Cancel Order
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="../../assets/js/api.js"></script>
+<script src="../../assets/js/auth.js"></script>
+<script src="orders.js"></script>
+
+</body>
+
+</html>

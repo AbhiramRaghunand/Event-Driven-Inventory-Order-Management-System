@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Inventory Management System</title>
+
+</head>
+
+
+<body>
+
+<script>
+
+    const token =
+        localStorage.getItem("access_token");
+
+
+    if (token) {
+
+        window.location.href =
+            "/frontend/pages/dashboard/dashboard.html";
+
+    } else {
+
+        window.location.href =
+            "/frontend/pages/login/login.html";
+
+    }
+
+</script>
+
+</body>
+
+</html>

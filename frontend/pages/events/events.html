@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Events | Inventory Management System</title>
+
+    <link
+        rel="stylesheet"
+        href="../../assets/css/global.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="events.css"
+    >
+</head>
+
+
+<body>
+
+<div class="app-layout">
+
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-mark">
+                IM
+            </div>
+
+            <div>
+
+                <h1>
+                    Inventory Management
+                </h1>
+
+                <span>
+                    Enterprise System
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-navigation">
+
+
+            <!-- MAIN -->
+
+            <div class="navigation-section">
+
+                <p class="navigation-label">
+                    MAIN
+                </p>
+
+
+                <a
+                    href="/frontend/pages/dashboard/dashboard.html"
+                    class="navigation-item"
+                >
+
+                    <span class="navigation-icon">
+                        ▦
+                    </span>
+
+                    <span>
+                        Dashboard
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="/frontend/pages/products/products.html"
+                    class="navigation-item"
+                >
+
+                    <span class="navigation-icon">
+                        □
+                    </span>
+
+                    <span>
+                        Products
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="/frontend/pages/orders/orders.html"
+                    class="navigation-item"
+                >
+
+                    <span class="navigation-icon">
+                        ≡
+                    </span>
+
+                    <span>
+                        Orders
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="/frontend/pages/notifications/notifications.html"
+                    class="navigation-item"
+                    id="notificationsNav"
+                >
+
+                    <span class="navigation-icon">
+                        ◇
+                    </span>
+
+                    <span>
+                        Notifications
+                    </span>
+
+                </a>
+
+            </div>
+
+
+            <!-- ADMINISTRATION -->
+
+            <div
+                class="navigation-section"
+                id="adminNavigation"
+            >
+
+                <p class="navigation-label">
+                    ADMINISTRATION
+                </p>
+
+
+                <a
+                    href="/frontend/pages/events/events.html"
+                    class="navigation-item active"
+                    id="eventsNav"
+                >
+
+                    <span class="navigation-icon">
+                        ◌
+                    </span>
+
+                    <span>
+                        Events
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="/frontend/pages/users/users.html"
+                    class="navigation-item"
+                    id="usersNav"
+                >
+
+                    <span class="navigation-icon">
+                        ◉
+                    </span>
+
+                    <span>
+                        Users
+                    </span>
+
+                </a>
+
+            </div>
+
+
+            <!-- ACCOUNT -->
+
+            <div class="navigation-section">
+
+                <p class="navigation-label">
+                    ACCOUNT
+                </p>
+
+
+                <a
+                    href="/frontend/pages/profile/profile.html"
+                    class="navigation-item"
+                    id="profileNav"
+                >
+
+                    <span class="navigation-icon">
+                        ○
+                    </span>
+
+                    <span>
+                        Profile
+                    </span>
+
+                </a>
+
+            </div>
+
+
+        </nav>
+
+
+        <!-- SIDEBAR BOTTOM -->
+
+        <div class="sidebar-bottom">
+
+            <button
+                type="button"
+                class="logout-button"
+                id="logoutButton"
+            >
+
+                <span class="navigation-icon">
+                    ←
+                </span>
+
+                <span>
+                    Sign out
+                </span>
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <p class="topbar-label">
+                    INVENTORY MANAGEMENT SYSTEM
+                </p>
+
+                <h2>
+                    Events
+                </h2>
+
+            </div>
+
+
+            <div class="topbar-user">
+
+                <div class="user-info">
+
+                    <span
+                        class="user-email"
+                        id="userEmail"
+                    >
+                        Loading...
+                    </span>
+
+                    <span
+                        class="user-role"
+                        id="userRole"
+                    >
+                        ...
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="user-avatar"
+                    id="userAvatar"
+                >
+                    U
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             PAGE CONTENT
+             ================================================= -->
+
+        <section class="events-content">
+
+
+            <!-- PAGE HEADER -->
+
+            <div class="page-header">
+
+                <div>
+
+                    <p class="page-eyebrow">
+                        EVENT PROCESSING
+                    </p>
+
+                    <h3>
+                        Event History
+                    </h3>
+
+                    <p class="page-description">
+                        Review events generated and processed
+                        by the system.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="secondary-button refresh-button"
+                    id="refreshButton"
+                >
+
+                    <span>
+                        ↻
+                    </span>
+
+                    Refresh
+
+                </button>
+
+            </div>
+
+
+            <!-- ERROR -->
+
+            <div
+                class="page-error hidden"
+                id="errorMessage"
+            ></div>
+
+
+            <!-- =================================================
+                 EVENT SUMMARY
+                 ================================================= -->
+
+            <div class="event-summary">
+
+
+                <div class="summary-item">
+
+                    <span>
+                        Total Events
+                    </span>
+
+                    <strong id="eventCount">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-divider"></div>
+
+
+                <div class="summary-item">
+
+                    <span>
+                        Order Created
+                    </span>
+
+                    <strong id="orderCreatedCount">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-divider"></div>
+
+
+                <div class="summary-item">
+
+                    <span>
+                        Order Cancelled
+                    </span>
+
+                    <strong id="orderCancelledCount">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-divider"></div>
+
+
+                <div class="summary-item">
+
+                    <span>
+                        Low Stock
+                    </span>
+
+                    <strong id="lowStockCount">
+                        —
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 EVENTS CARD
+                 ================================================= -->
+
+            <section class="events-card">
+
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h3>
+                            System Events
+                        </h3>
+
+                        <p>
+                            Event records stored by the
+                            event processing system.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LOADING -->
+
+                <div
+                    class="loading-state"
+                    id="loadingState"
+                >
+                    Loading events...
+                </div>
+
+
+                <!-- TABLE -->
+
+                <div
+                    class="events-table-container hidden"
+                    id="tableContainer"
+                >
+
+                    <table class="events-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Event
+                                </th>
+
+                                <th>
+                                    Type
+                                </th>
+
+                                <th>
+                                    Data
+                                </th>
+
+                                <th>
+                                    Processed At
+                                </th>
+
+                                <th>
+                                    Actions
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody
+                            id="eventsTableBody"
+                        >
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <!-- EMPTY -->
+
+                <div
+                    class="empty-state hidden"
+                    id="emptyState"
+                >
+
+                    <div class="empty-icon">
+                        ◌
+                    </div>
+
+                    <h4>
+                        No events found
+                    </h4>
+
+                    <p>
+                        There are currently no event
+                        records to display.
+                    </p>
+
+                </div>
+
+
+            </section>
+
+
+        </section>
+
+
+    </main>
+
+
+</div>
+
+
+<!-- ============================================================
+     EVENT DETAILS MODAL
+     ============================================================ -->
+
+<div
+    class="modal-overlay hidden"
+    id="eventDetailsModal"
+>
+
+
+    <div class="modal event-details-modal">
+
+
+        <!-- MODAL HEADER -->
+
+        <div class="modal-header">
+
+            <div>
+
+                <p class="modal-eyebrow">
+                    EVENT DETAILS
+                </p>
+
+                <h3 id="detailsEventType">
+                    Event
+                </h3>
+
+                <p id="detailsEventId">
+                    —
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeDetailsModalButton"
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <!-- MODAL CONTENT -->
+
+        <div class="event-details-content">
+
+
+            <div class="details-grid">
+
+
+                <div class="detail-item">
+
+                    <span>
+                        Database ID
+                    </span>
+
+                    <strong id="detailsDatabaseId">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>
+                        Event Type
+                    </span>
+
+                    <strong id="detailsTypeValue">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>
+                        Event ID
+                    </span>
+
+                    <strong id="detailsEventIdValue">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>
+                        Processed At
+                    </span>
+
+                    <strong id="detailsProcessedAt">
+                        —
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- EVENT DATA -->
+
+            <div class="event-data-section">
+
+
+                <div class="details-section-heading">
+
+                    <div>
+
+                        <h4>
+                            Event Data
+                        </h4>
+
+                        <p>
+                            Payload associated with this event.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <pre
+                    class="event-data"
+                    id="detailsEventData"
+                >{}</pre>
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- MODAL ACTIONS -->
+
+        <div class="modal-actions">
+
+            <button
+                type="button"
+                class="secondary-button"
+                id="closeDetailsButton"
+            >
+                Close
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<script src="../../assets/js/api.js"></script>
+<script src="../../assets/js/auth.js"></script>
+<script src="events.js"></script>
+
+</body>
+
+</html>

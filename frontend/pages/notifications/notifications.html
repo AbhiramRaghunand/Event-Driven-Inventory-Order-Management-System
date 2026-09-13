@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Notifications | Inventory Management</title>
+
+    <link
+        rel="stylesheet"
+        href="../../assets/css/global.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="notifications.css"
+    >
+</head>
+
+<body>
+
+    <div class="app-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="sidebar-header">
+                <div class="brand-icon">IM</div>
+
+                <div>
+                    <h1>Inventory Management</h1>
+                    <p>Enterprise System</p>
+                </div>
+            </div>
+
+
+            <nav class="sidebar-navigation">
+
+                <!-- MAIN -->
+                <div class="nav-section">
+
+                    <p class="nav-section-title">MAIN</p>
+
+                    <a
+                        href="/frontend/pages/dashboard/dashboard.html"
+                        class="nav-item"
+                    >
+                        <span class="nav-icon">⌂</span>
+                        <span>Dashboard</span>
+                    </a>
+
+                    <a
+                        href="/frontend/pages/products/products.html"
+                        class="nav-item"
+                    >
+                        <span class="nav-icon">▦</span>
+                        <span>Products</span>
+                    </a>
+
+                    <a
+                        href="/frontend/pages/orders/orders.html"
+                        class="nav-item"
+                    >
+                        <span class="nav-icon">▤</span>
+                        <span>Orders</span>
+                    </a>
+
+                    <a
+                        href="/frontend/pages/notifications/notifications.html"
+                        class="nav-item active"
+                    >
+                        <span class="nav-icon">●</span>
+                        <span>Notifications</span>
+                    </a>
+
+                </div>
+
+
+                <!-- ADMINISTRATION -->
+                <div
+                    class="nav-section"
+                    id="adminNavigation"
+                >
+
+                    <p class="nav-section-title">
+                        ADMINISTRATION
+                    </p>
+
+                    <a
+                        href="/frontend/pages/events/events.html"
+                        class="nav-item"
+                    >
+                        <span class="nav-icon">◈</span>
+                        <span>Events</span>
+                    </a>
+
+                    <a
+                        href="/frontend/pages/users/users.html"
+                        class="nav-item"
+                    >
+                        <span class="nav-icon">♙</span>
+                        <span>Users</span>
+                    </a>
+
+                </div>
+
+
+                <!-- ACCOUNT -->
+                <div class="nav-section">
+
+                    <p class="nav-section-title">ACCOUNT</p>
+
+                    <a
+                        href="/frontend/pages/profile/profile.html"
+                        class="nav-item"
+                    >
+                        <span class="nav-icon">○</span>
+                        <span>Profile</span>
+                    </a>
+
+                </div>
+
+            </nav>
+
+
+            <div class="sidebar-bottom">
+
+                <button
+                    type="button"
+                    id="logoutButton"
+                    class="nav-item logout-button"
+                >
+                    <span class="nav-icon">↪</span>
+                    <span>Sign out</span>
+                </button>
+
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <!-- TOP BAR -->
+            <header class="topbar">
+
+                <div class="topbar-left">
+                    <span class="topbar-label">
+                        Notification Center
+                    </span>
+                </div>
+
+                <div class="topbar-right">
+
+                    <div class="user-info">
+
+                        <div
+                            class="user-avatar"
+                            id="userAvatar"
+                        >
+                            U
+                        </div>
+
+                        <div class="user-details">
+
+                            <span
+                                id="userEmail"
+                                class="user-email"
+                            >
+                                User
+                            </span>
+
+                            <span
+                                id="userRole"
+                                class="user-role"
+                            >
+                                Customer
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- PAGE CONTENT -->
+            <section class="page-content">
+
+                <div class="page-header">
+
+                    <div>
+                        <h2>Notifications</h2>
+
+                        <p>
+                            View and manage your system notifications.
+                        </p>
+                    </div>
+
+                    <div class="page-actions">
+
+                        <button
+                            type="button"
+                            id="markAllButton"
+                            class="secondary-button"
+                        >
+                            Mark all as read
+                        </button>
+
+                        <button
+                            type="button"
+                            id="refreshButton"
+                            class="primary-button"
+                        >
+                            Refresh
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUMMARY -->
+                <div class="summary-grid">
+
+                    <div class="summary-card">
+
+                        <div class="summary-label">
+                            Total Notifications
+                        </div>
+
+                        <div
+                            class="summary-value"
+                            id="totalNotifications"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="summary-card">
+
+                        <div class="summary-label">
+                            Unread
+                        </div>
+
+                        <div
+                            class="summary-value unread-value"
+                            id="unreadNotifications"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="summary-card">
+
+                        <div class="summary-label">
+                            Order Updates
+                        </div>
+
+                        <div
+                            class="summary-value"
+                            id="orderNotifications"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="summary-card">
+
+                        <div class="summary-label">
+                            Low Stock Alerts
+                        </div>
+
+                        <div
+                            class="summary-value"
+                            id="lowStockNotifications"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STATUS MESSAGE -->
+                <div
+                    id="statusMessage"
+                    class="hidden"
+                ></div>
+
+
+                <!-- NOTIFICATIONS -->
+                <div class="notifications-card">
+
+                    <div class="notifications-card-header">
+
+                        <div>
+                            <h3>Recent Notifications</h3>
+
+                            <p>
+                                Notifications generated by system events.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="loadingState"
+                        class="state-container"
+                    >
+                        <div class="loading-spinner"></div>
+
+                        <p>Loading notifications...</p>
+                    </div>
+
+
+                    <div
+                        id="emptyState"
+                        class="state-container hidden"
+                    >
+                        <div class="empty-icon">○</div>
+
+                        <h3>No notifications</h3>
+
+                        <p>
+                            You currently have no notifications.
+                        </p>
+                    </div>
+
+
+                    <div
+                        id="errorState"
+                        class="state-container hidden"
+                    >
+                        <div class="empty-icon">!</div>
+
+                        <h3>Unable to load notifications</h3>
+
+                        <p id="errorText">
+                            Something went wrong.
+                        </p>
+
+                        <button
+                            type="button"
+                            id="retryButton"
+                            class="secondary-button"
+                        >
+                            Try again
+                        </button>
+                    </div>
+
+
+                    <div
+                        id="notificationsList"
+                        class="notifications-list hidden"
+                    ></div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <script src="../../assets/js/auth.js"></script>
+    <script src="../../assets/js/api.js"></script>
+    <script src="notifications.js"></script>
+
+</body>
+</html>

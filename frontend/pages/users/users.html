@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Users | Inventory Management System</title>
+
+    <link
+        rel="stylesheet"
+        href="../../assets/css/global.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="users.css"
+    >
+
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-mark">
+                IM
+            </div>
+
+            <div>
+                <h1>Inventory Management</h1>
+                <span>Enterprise System</span>
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-navigation">
+
+            <div class="navigation-section">
+
+                <p class="navigation-label">MAIN</p>
+
+                <a
+                    href="/frontend/pages/dashboard/dashboard.html"
+                    class="navigation-item"
+                >
+                    <span class="navigation-icon">▦</span>
+                    <span>Dashboard</span>
+                </a>
+
+
+                <a
+                    href="/frontend/pages/products/products.html"
+                    class="navigation-item"
+                >
+                    <span class="navigation-icon">□</span>
+                    <span>Products</span>
+                </a>
+
+
+                <a
+                    href="/frontend/pages/orders/orders.html"
+                    class="navigation-item"
+                >
+                    <span class="navigation-icon">≡</span>
+                    <span>Orders</span>
+                </a>
+
+
+                <a
+                    href="../notifications/notifications.html"
+                    class="navigation-item"
+                    id="notificationsNav"
+                >
+                    <span class="navigation-icon">●</span>
+                    <span>Notifications</span>
+                </a>
+
+            </div>
+
+
+            <div class="navigation-section">
+
+                <p class="navigation-label">ADMINISTRATION</p>
+
+                <a
+                    href="/frontend/pages/events/events.html"
+                    class="navigation-item placeholder-link"
+                >
+                    <span class="navigation-icon">◈</span>
+                    <span>Events</span>
+                </a>
+
+
+                <a
+                    href="/frontend/pages/users/users.html"
+                    class="navigation-item active"
+                >
+                    <span class="navigation-icon">♙</span>
+                    <span>Users</span>
+                </a>
+
+            </div>
+
+
+            <div class="navigation-section">
+
+                <p class="navigation-label">ACCOUNT</p>
+
+                <a
+                    href="/frontend/pages/profile/profile.html"
+                    class="navigation-item"
+                >
+                    <span class="navigation-icon">○</span>
+                    <span>Profile</span>
+                </a>
+
+            </div>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <button
+                id="logoutButton"
+                class="logout-button"
+            >
+                <span class="navigation-icon">↪</span>
+                <span>Sign out</span>
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>Users</h1>
+
+                <p>
+                    Manage and review registered users.
+                </p>
+
+            </div>
+
+
+            <div class="topbar-user">
+
+                <div class="topbar-avatar">
+                    U
+                </div>
+
+                <div>
+
+                    <strong id="topbarUserEmail">
+                        User
+                    </strong>
+
+                    <span id="topbarUserRole">
+                        Administrator
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- PAGE CONTENT -->
+
+        <section class="page-content">
+
+            <!-- SUMMARY -->
+
+            <div class="summary-grid">
+
+                <div class="summary-card">
+
+                    <div class="summary-label">
+                        Total Users
+                    </div>
+
+                    <div
+                        class="summary-value"
+                        id="totalUsers"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <div class="summary-label">
+                        Administrators
+                    </div>
+
+                    <div
+                        class="summary-value"
+                        id="totalAdmins"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <div class="summary-label">
+                        Customers
+                    </div>
+
+                    <div
+                        class="summary-value"
+                        id="totalCustomers"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- USERS CARD -->
+
+            <div class="users-card">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>User Directory</h2>
+
+                        <p>
+                            Registered users in the system.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        id="refreshButton"
+                        class="secondary-button"
+                    >
+                        Refresh
+                    </button>
+
+                </div>
+
+
+                <!-- FILTERS -->
+
+                <div class="filters">
+
+                    <div class="search-container">
+
+                        <label for="searchInput">
+                            Search
+                        </label>
+
+                        <input
+                            type="text"
+                            id="searchInput"
+                            placeholder="Search by email..."
+                        >
+
+                    </div>
+
+
+                    <div class="role-filter">
+
+                        <label for="roleFilter">
+                            Role
+                        </label>
+
+                        <select id="roleFilter">
+
+                            <option value="all">
+                                All roles
+                            </option>
+
+                            <option value="admin">
+                                Administrator
+                            </option>
+
+                            <option value="customer">
+                                Customer
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ERROR -->
+
+                <div
+                    id="errorMessage"
+                    class="error-message hidden"
+                ></div>
+
+
+                <!-- LOADING -->
+
+                <div
+                    id="loadingState"
+                    class="loading-state"
+                >
+                    Loading users...
+                </div>
+
+
+                <!-- EMPTY -->
+
+                <div
+                    id="emptyState"
+                    class="empty-state hidden"
+                >
+
+                    <h3>No users found</h3>
+
+                    <p>
+                        No users match the current filters.
+                    </p>
+
+                </div>
+
+
+                <!-- TABLE -->
+
+                <div
+                    id="tableContainer"
+                    class="table-container hidden"
+                >
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    ID
+                                </th>
+
+                                <th>
+                                    Email
+                                </th>
+
+                                <th>
+                                    Role
+                                </th>
+
+                                <th>
+                                    Created
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="usersTableBody">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- USER DETAILS MODAL -->
+
+<div
+    id="userModal"
+    class="modal-overlay hidden"
+>
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+
+                <h2>User Details</h2>
+
+                <p>
+                    Account information
+                </p>
+
+            </div>
+
+            <button
+                id="closeModalButton"
+                class="modal-close"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="user-details">
+
+            <div class="detail-row">
+
+                <span class="detail-label">
+                    User ID
+                </span>
+
+                <span
+                    class="detail-value"
+                    id="detailUserId"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span class="detail-label">
+                    Email
+                </span>
+
+                <span
+                    class="detail-value"
+                    id="detailEmail"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span class="detail-label">
+                    Role
+                </span>
+
+                <span
+                    class="detail-value"
+                    id="detailRole"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span class="detail-label">
+                    Created
+                </span>
+
+                <span
+                    class="detail-value"
+                    id="detailCreated"
+                >
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span class="detail-label">
+                    Account Status
+                </span>
+
+                <span class="status-badge active-status">
+                    Active
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button
+                id="closeModalFooter"
+                class="secondary-button"
+            >
+                Close
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="../../assets/js/auth.js"></script>
+<script src="../../assets/js/api.js"></script>
+<script src="users.js"></script>
+
+</body>
+
+</html>
