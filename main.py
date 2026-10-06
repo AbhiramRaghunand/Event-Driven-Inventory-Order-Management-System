@@ -1,5 +1,5 @@
 from fastapi import FastAPI,Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.events.consumer import start_event_consumer
@@ -22,13 +22,72 @@ app.include_router(user_router)
 app.include_router(event_router)
 app.include_router(noti_router)
 
+
+@app.get("/")
+def index() -> FileResponse:
+    return FileResponse("frontend/index.html")
+
+
+@app.get("/login")
+def login_page() -> FileResponse:
+    return FileResponse("frontend/pages/login/login.html")
+
+
+@app.get("/register")
+def register_page() -> FileResponse:
+    return FileResponse("frontend/pages/register/register.html")
+
+
+@app.get("/dashboard")
+def dashboard_page() -> FileResponse:
+    return FileResponse("frontend/pages/dashboard/dashboard.html")
+
+
+@app.get("/products")
+def products_page() -> FileResponse:
+    return FileResponse("frontend/pages/products/products.html")
+
+
+@app.get("/orders")
+def orders_page() -> FileResponse:
+    return FileResponse("frontend/pages/orders/orders.html")
+
+
+@app.get("/cart")
+def cart_page() -> FileResponse:
+    return FileResponse("frontend/pages/cart/cart.html")
+
+
+@app.get("/notifications")
+def notifications_page() -> FileResponse:
+    return FileResponse("frontend/pages/notifications/notifications.html")
+
+
+@app.get("/events")
+def events_page() -> FileResponse:
+    return FileResponse("frontend/pages/events/events.html")
+
+
+@app.get("/users")
+def users_page() -> FileResponse:
+    return FileResponse("frontend/pages/users/users.html")
+
+
+@app.get("/profile")
+def profile_page() -> FileResponse:
+    return FileResponse("frontend/pages/profile/profile.html")
+
+
 app.mount(
-    "/frontend",
-    StaticFiles(
-        directory="frontend",
-        html=True
-    ),
-    name="frontend"
+    "/assets",
+    StaticFiles(directory="frontend/assets"),
+    name="assets"
+)
+
+app.mount(
+    "/page-assets",
+    StaticFiles(directory="frontend/pages"),
+    name="page-assets"
 )
 
 
@@ -39,6 +98,3 @@ async def global_exception_handler( request: Request, exc: Exception ):
         content={ "detail": "Internal server error" } )
 
 
-@app.get("/")
-def health_check() -> dict[str, str]:
-    return {"status": "ok"}

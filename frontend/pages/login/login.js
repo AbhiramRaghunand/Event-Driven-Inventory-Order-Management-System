@@ -79,11 +79,11 @@ loginForm.addEventListener(
              * Authentication successful.
              *
              * Go directly to the dashboard
-             * instead of going through /frontend/.
+             * instead of going through the old page path.
              */
 
             window.location.href =
-                "/frontend/pages/dashboard/dashboard.html";
+                "/dashboard";
 
 
         } catch (error) {

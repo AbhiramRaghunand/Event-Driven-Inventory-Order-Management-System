@@ -182,6 +182,19 @@ async function getOrder(orderId) {
     );
 }
 
+
+async function createOrder(items) {
+    return apiRequest(
+        "/orders/",
+        {
+            method: "POST",
+            body: JSON.stringify({
+                items
+            })
+        }
+    );
+}
+
 /* USERS */
 
 async function getUsers() {

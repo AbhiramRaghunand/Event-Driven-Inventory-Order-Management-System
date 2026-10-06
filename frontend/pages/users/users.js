@@ -188,7 +188,7 @@ function setupEventListeners() {
 
     if (notificationsNav) {
         notificationsNav.href =
-            "../notifications/notifications.html";
+            "/notifications";
     }
 }
 

@@ -1048,7 +1048,7 @@ function setupNavigation() {
                     event.preventDefault();
 
                     window.location.href =
-                        "/frontend/pages/notifications/notifications.html";
+                        "/notifications";
 
                 }
             );

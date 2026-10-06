@@ -14,12 +14,12 @@
 
     <link
         rel="stylesheet"
-        href="/frontend/assets/css/global.css"
+        href="/assets/css/global.css"
     >
 
     <link
         rel="stylesheet"
-        href="/frontend/pages/products/products.css"
+        href="/page-assets/products/products.css"
     >
 
 </head>
@@ -68,7 +68,7 @@
 
 
                 <a
-                    href="/frontend/pages/dashboard/dashboard.html"
+                    href="/dashboard"
                     class="navigation-item"
                     id="dashboardNav"
                 >
@@ -85,7 +85,7 @@
 
 
                 <a
-                    href="/frontend/pages/products/products.html"
+                    href="/products"
                     class="navigation-item active"
                     id="productsNav"
                 >
@@ -102,7 +102,24 @@
 
 
                 <a
-                    href="/frontend/pages/orders/orders.html"
+                    href="/cart"
+                    class="navigation-item"
+                    id="cartNav"
+                >
+
+                    <span class="navigation-icon">
+                        ◇
+                    </span>
+
+                    <span>
+                        Cart
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="/orders"
                     class="navigation-item"
                     id="ordersNav"
                 >
@@ -119,7 +136,7 @@
 
 
                 <a
-                    href="/frontend/pages/notifications/notifications.html"
+                    href="/notifications"
                     class="navigation-item"
                     id="notificationsNav"
                 >
@@ -150,7 +167,7 @@
 
 
                 <a
-                    href="/frontend/pages/events/events.html"
+                    href="/events"
                     class="navigation-item"
                     id="eventsNav"
                 >
@@ -167,7 +184,7 @@
 
 
                 <a
-                    href="/frontend/pages/users/users.html"
+                    href="/users"
                     class="navigation-item"
                     id="usersNav"
                 >
@@ -195,7 +212,7 @@
 
 
                 <a
-                    href="/frontend/pages/profile/profile.html"
+                    href="/profile"
                     class="navigation-item"
                     id="profileNav"
                 >
@@ -342,6 +359,20 @@
                         id="addProductButton"
                     >
                         Add Product
+                    </button>
+
+                    <button
+                        type="button"
+                        class="secondary-button hidden cart-button"
+                        id="cartButton"
+                    >
+                        Cart
+                        <span
+                            class="cart-count"
+                            id="cartCount"
+                        >
+                            0
+                        </span>
                     </button>
 
                 </div>
@@ -826,9 +857,200 @@
 </div>
 
 
-<script src="/frontend/assets/js/api.js"></script>
-<script src="/frontend/assets/js/auth.js"></script>
-<script src="/frontend/pages/products/products.js"></script>
+<!-- ============================================================
+     ADD TO CART MODAL
+     ============================================================ -->
+
+<div
+    class="modal-overlay hidden"
+    id="addToCartModal"
+>
+
+    <div class="modal add-cart-modal">
+
+        <div class="modal-header">
+
+            <div>
+
+                <h3>Add to Cart</h3>
+
+                <p>
+                    Choose the quantity you want to add.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeAddToCartModalButton"
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="add-cart-summary">
+
+            <div>
+                <span class="add-cart-label">Product</span>
+                <strong id="addCartProductName">Product</strong>
+            </div>
+
+            <div>
+                <span class="add-cart-label">Price</span>
+                <strong id="addCartProductPrice">₹0.00</strong>
+            </div>
+
+            <div>
+                <span class="add-cart-label">Quantity remaining</span>
+                <strong id="addCartRemaining">0</strong>
+            </div>
+
+        </div>
+
+
+        <form
+            id="addToCartForm"
+            class="product-form"
+        >
+
+            <div class="form-group">
+
+                <label for="addCartQuantity">
+                    Quantity
+                </label>
+
+                <input
+                    type="number"
+                    id="addCartQuantity"
+                    min="1"
+                    step="1"
+                    value="1"
+                    required
+                >
+
+            </div>
+
+
+            <div
+                id="addCartFormError"
+                class="error-message hidden"
+            ></div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    id="cancelAddToCartButton"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                    id="confirmAddToCartButton"
+                >
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ============================================================
+     CART MODAL
+     ============================================================ -->
+
+<div
+    class="modal-overlay hidden"
+    id="cartModal"
+>
+
+    <div class="modal cart-modal">
+
+        <div class="modal-header">
+
+            <div>
+
+                <h3>Your Cart</h3>
+
+                <p>
+                    Review the products you have selected.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeCartModalButton"
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div
+            class="cart-content"
+            id="cartContent"
+        ></div>
+
+        <div
+            class="cart-empty hidden"
+            id="cartEmpty"
+        >
+            <span class="cart-empty-icon">□</span>
+            <h3>Your cart is empty</h3>
+            <p>Add products from the inventory to get started.</p>
+        </div>
+
+        <div
+            class="cart-footer hidden"
+            id="cartFooter"
+        >
+            <div class="cart-total-row">
+                <span>Total items</span>
+                <strong id="cartItemTotal">0</strong>
+            </div>
+
+            <div class="cart-total-row cart-price-row">
+                <span>Total price</span>
+                <strong id="cartPriceTotal">₹0.00</strong>
+            </div>
+
+            <button
+                type="button"
+                class="secondary-button cart-clear-button"
+                id="clearCartButton"
+            >
+                Clear Cart
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/auth.js"></script>
+<script src="/page-assets/products/products.js"></script>
 
 </body>
 

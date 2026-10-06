@@ -77,7 +77,7 @@ registerForm.addEventListener(
             setTimeout(() => {
 
                 window.location.href =
-                    "../login/login.html";
+                    "/login";
 
             }, 1200);
 

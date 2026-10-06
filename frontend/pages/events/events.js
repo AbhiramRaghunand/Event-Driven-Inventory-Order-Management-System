@@ -660,7 +660,7 @@ function setupNavigation() {
         event => {
 
             window.location.href =
-                    "/frontend/pages/notifications/notifications.html";
+                    "/notifications";
 
 
         }

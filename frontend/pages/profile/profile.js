@@ -309,11 +309,11 @@ function setupNavigation() {
 
     const navigationTargets = {
         notificationsNav:
-            "/frontend/pages/notifications/notifications.html",
+            "/notifications",
         eventsNav:
-            "/frontend/pages/events/events.html",
+            "/events",
         usersNav:
-            "/frontend/pages/users/users.html"
+            "/users"
     };
 
 

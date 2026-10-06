@@ -588,7 +588,7 @@ function setupNavigation() {
             () => {
 
                 window.location.href =
-                    "/frontend/pages/products/products.html";
+                    "/products";
 
             }
         );
@@ -599,7 +599,7 @@ function setupNavigation() {
             () => {
 
                 window.location.href =
-                    "/frontend/pages/orders/orders.html";
+                    "/orders";
 
             }
         );
@@ -610,7 +610,7 @@ function setupNavigation() {
             () => {
 
                 window.location.href =
-                    "/frontend/pages/profile/profile.html";
+                    "/profile";
 
             }
         );
@@ -621,7 +621,7 @@ function setupNavigation() {
             () => {
 
                 window.location.href =
-                    "/frontend/pages/users/users.html";
+                    "/users";
 
             }
         );
@@ -633,7 +633,7 @@ function setupNavigation() {
             () => {
 
                 window.location.href =
-                    "/frontend/pages/events/events.html";
+                    "/events";
 
             }
         );
@@ -645,7 +645,7 @@ function setupNavigation() {
             () => {
 
                 window.location.href =
-                    "/frontend/pages/notifications/notifications.html";
+                    "/notifications";
 
             }
         );
@@ -716,7 +716,7 @@ function setupLogout() {
 
 
             window.location.replace(
-                "/frontend/pages/login/login.html"
+                "/login"
             );
 
         }

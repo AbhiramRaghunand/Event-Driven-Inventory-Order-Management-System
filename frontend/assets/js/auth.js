@@ -81,7 +81,7 @@ function logout() {
     );
 
     window.location.href =
-        "/frontend/pages/login/login.html";
+        "/login";
 }
 
 
@@ -96,6 +96,6 @@ function requireAuth() {
     if (!isLoggedIn()) {
 
         window.location.href =
-            "/frontend/pages/login/login.html";
+            "/login";
     }
 }

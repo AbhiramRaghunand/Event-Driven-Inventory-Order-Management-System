@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart | Inventory Management System</title>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/page-assets/cart/cart.css">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-mark">IM</div>
+            <div>
+                <h1>Inventory Management</h1>
+                <span>Enterprise System</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-navigation">
+            <div class="navigation-section">
+                <p class="navigation-label">MAIN</p>
+                <a href="/dashboard" class="navigation-item" id="dashboardNav">
+                    <span class="navigation-icon">▦</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/products" class="navigation-item" id="productsNav">
+                    <span class="navigation-icon">□</span>
+                    <span>Products</span>
+                </a>
+                <a href="/cart" class="navigation-item active" id="cartNav">
+                    <span class="navigation-icon">◇</span>
+                    <span>Cart</span>
+                </a>
+                <a href="/orders" class="navigation-item" id="ordersNav">
+                    <span class="navigation-icon">≡</span>
+                    <span>Orders</span>
+                </a>
+                <a href="/notifications" class="navigation-item" id="notificationsNav">
+                    <span class="navigation-icon">♢</span>
+                    <span>Notifications</span>
+                </a>
+            </div>
+
+            <div class="navigation-section hidden" id="adminNavigation">
+                <p class="navigation-label">ADMINISTRATION</p>
+                <a href="/events" class="navigation-item" id="eventsNav">
+                    <span class="navigation-icon">◇</span>
+                    <span>Events</span>
+                </a>
+                <a href="/users" class="navigation-item" id="usersNav">
+                    <span class="navigation-icon">○</span>
+                    <span>Users</span>
+                </a>
+            </div>
+
+            <div class="navigation-section">
+                <p class="navigation-label">ACCOUNT</p>
+                <a href="/profile" class="navigation-item" id="profileNav">
+                    <span class="navigation-icon">○</span>
+                    <span>Profile</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <button type="button" class="logout-button" id="logoutButton">
+                <span class="navigation-icon">←</span>
+                <span>Sign out</span>
+            </button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div>
+                <p class="topbar-label">INVENTORY MANAGEMENT SYSTEM</p>
+                <h2>Cart</h2>
+            </div>
+            <div class="topbar-user">
+                <div class="user-info">
+                    <span class="user-email" id="userEmail">Loading...</span>
+                    <span class="user-role" id="userRole">...</span>
+                </div>
+                <div class="user-avatar"><span id="userInitial">U</span></div>
+            </div>
+        </header>
+
+        <section class="page-content">
+            <div class="page-heading">
+                <div>
+                    <h3>Review Your Cart</h3>
+                    <p>Check quantities and place your order when you are ready.</p>
+                </div>
+                <a href="/products" class="secondary-button">Continue Shopping</a>
+            </div>
+
+            <div id="errorMessage" class="error-message hidden"></div>
+            <div id="successMessage" class="success-message hidden"></div>
+
+            <section class="cart-card">
+                <div class="cart-card-header">
+                    <div>
+                        <h3>Cart Items</h3>
+                        <p id="cartDescription">Your selected products</p>
+                    </div>
+                    <span class="cart-page-count" id="cartPageCount">0 items</span>
+                </div>
+
+                <div id="loadingState" class="loading-state">Loading cart...</div>
+
+                <div id="cartItems" class="cart-items hidden"></div>
+
+                <div id="emptyState" class="empty-state hidden">
+                    <div class="empty-icon">□</div>
+                    <h3>Your cart is empty</h3>
+                    <p>Choose products from the inventory to add them here.</p>
+                    <a href="/products" class="primary-button">Browse Products</a>
+                </div>
+
+                <div id="cartSummary" class="cart-summary hidden">
+                    <div class="cart-summary-line">
+                        <span>Total items</span>
+                        <strong id="totalItems">0</strong>
+                    </div>
+                    <div class="cart-summary-line cart-total-price">
+                        <span>Total price</span>
+                        <strong id="totalPrice">₹0.00</strong>
+                    </div>
+                    <button type="button" class="primary-button place-order-button" id="placeOrderButton">
+                        Place Order
+                    </button>
+                </div>
+            </section>
+        </section>
+    </main>
+</div>
+
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/auth.js"></script>
+<script src="/page-assets/cart/cart.js"></script>
+</body>
+</html>
