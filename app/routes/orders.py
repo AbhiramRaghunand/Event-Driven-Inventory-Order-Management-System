@@ -9,6 +9,7 @@ from app.models.order import Status,Order
 from app.models.order_item import OrderItem
 from app.events.events import Event, EventType
 from app.events.publisher import publish_event
+from decimal import Decimal
 
 
 
@@ -43,9 +44,18 @@ def create_order(order:OrderCreate,db:Session=Depends(get_db),current_user:User=
 
             products[product_id]=product
 
+        total_amount = sum(
+        (
+            products[product_id].price * quantities[product_id]
+            for product_id in quantities
+        ),
+        Decimal("0.00"),
+        )
+
         new_order=Order(
             user_id=current_user.id,
-            status=Status.CONFIRMED
+            status=Status.PENDING,
+            total_amount=total_amount
         )
 
         db.add(new_order)
@@ -60,7 +70,8 @@ def create_order(order:OrderCreate,db:Session=Depends(get_db),current_user:User=
             order_item=OrderItem(
                 order_id=new_order.id,
                 product_id=product_id,
-                quantity=quantity
+                quantity=quantity,
+                unit_price=product.price
             )
 
             db.add(order_item)

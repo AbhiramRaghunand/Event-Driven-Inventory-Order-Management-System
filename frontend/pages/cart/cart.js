@@ -1,6 +1,8 @@
+
 requireAuth();
 
 const CART_STORAGE_KEY = "inventory_cart";
+const PENDING_ORDER_KEY = "inventory_pending_order_id";
 
 const userEmail = document.getElementById("userEmail");
 const userRole = document.getElementById("userRole");
@@ -21,6 +23,24 @@ const successMessage = document.getElementById("successMessage");
 
 let cartItems = [];
 let currentProducts = [];
+
+function getPendingOrderId() {
+    const value = localStorage.getItem(PENDING_ORDER_KEY);
+
+    if (!value || !/^\d+$/.test(value)) {
+        return null;
+    }
+
+    return Number(value);
+}
+
+function savePendingOrderId(orderId) {
+    localStorage.setItem(PENDING_ORDER_KEY, String(orderId));
+}
+
+function clearPendingOrderId() {
+    localStorage.removeItem(PENDING_ORDER_KEY);
+}
 
 function formatPrice(price) {
     return new Intl.NumberFormat("en-IN", {
@@ -66,11 +86,13 @@ function loadCart() {
 }
 
 function showError(message) {
+    successMessage.classList.add("hidden");
     errorMessage.textContent = message;
     errorMessage.classList.remove("hidden");
 }
 
 function showSuccess(message) {
+    errorMessage.classList.add("hidden");
     successMessage.textContent = message;
     successMessage.classList.remove("hidden");
 }
@@ -112,10 +134,13 @@ function renderCart() {
     const itemCount = getItemCount();
     const cartHasItems = cartItems.length > 0;
 
-    cartPageCount.textContent = `${itemCount} ${itemCount === 1 ? "item" : "items"}`;
+    cartPageCount.textContent =
+        `${itemCount} ${itemCount === 1 ? "item" : "items"}`;
+
     cartDescription.textContent = cartHasItems
         ? "Review quantities before placing your order."
         : "Your selected products";
+
     totalItems.textContent = itemCount;
 
     if (!cartHasItems) {
@@ -136,11 +161,15 @@ function renderCart() {
 
         const element = document.createElement("div");
         element.className = "cart-item";
+
         element.innerHTML = `
             <div class="cart-item-details">
-                <strong class="cart-item-name">${escapeHtml(item.name)}</strong>
+                <strong class="cart-item-name">
+                    ${escapeHtml(item.name)}
+                </strong>
                 <span class="cart-item-meta">
-                    ${formatPrice(item.price)} each · ${item.available_stock} available
+                    ${formatPrice(item.price)} each ·
+                    ${item.available_stock} available
                 </span>
             </div>
 
@@ -153,7 +182,11 @@ function renderCart() {
                         data-product-id="${item.product_id}"
                         aria-label="Decrease quantity"
                     >−</button>
-                    <span class="cart-item-quantity">${item.quantity}</span>
+
+                    <span class="cart-item-quantity">
+                        ${item.quantity}
+                    </span>
+
                     <button
                         type="button"
                         class="quantity-button"
@@ -163,9 +196,11 @@ function renderCart() {
                         ${item.quantity >= item.available_stock ? "disabled" : ""}
                     >+</button>
                 </div>
+
                 <strong class="cart-item-total">
                     ${formatPrice(item.price * item.quantity)}
                 </strong>
+
                 <button
                     type="button"
                     class="cart-remove-button"
@@ -218,28 +253,134 @@ async function placeOrder() {
         return;
     }
 
+    if (typeof Razorpay === "undefined") {
+        showError(
+            "Payment gateway could not load. Please refresh and try again."
+        );
+        return;
+    }
+
     placeOrderButton.disabled = true;
-    placeOrderButton.textContent = "Placing Order...";
+    placeOrderButton.textContent = "Creating Order...";
     errorMessage.classList.add("hidden");
+    successMessage.classList.add("hidden");
 
     try {
-        await createOrder(
-            cartItems.map(item => ({
-                product_id: item.product_id,
-                quantity: item.quantity
-            }))
-        );
+        // Reuse a saved order ID when retrying payment.
+        let order;
+        const pendingOrderId = getPendingOrderId();
 
-        cartItems = [];
-        saveCart();
-        renderCart();
-        showSuccess("Order placed successfully.");
+        if (pendingOrderId) {
+            order = { id: pendingOrderId };
+        } else {
+            order = await createOrder(
+                cartItems.map(item => ({
+                    product_id: item.product_id,
+                    quantity: item.quantity
+                }))
+            );
+
+            savePendingOrderId(order.id);
+        }
+
+        // Create or reuse a Razorpay payment order for this inventory order.
+        const paymentOrder = await createPaymentOrder(order.id);
+
+        const options = {
+            key: paymentOrder.razorpay_key_id,
+            amount: Math.round(Number(paymentOrder.amount) * 100),
+            currency: paymentOrder.currency || "INR",
+            name: "Inventory Management System",
+            description: `Payment for Order #${order.id}`,
+            order_id: paymentOrder.razorpay_order_id,
+
+            handler: async function (response) {
+                placeOrderButton.disabled = true;
+                placeOrderButton.textContent = "Verifying Payment...";
+
+                try {
+                    const result = await verifyPayment(response);
+
+                    // Clear the cart only after backend verification succeeds.
+                    cartItems = [];
+                    saveCart();
+                    clearPendingOrderId();
+                    renderCart();
+
+                    showSuccess(
+                        `Payment successful! Order #${result.order_id} is verified.`
+                    );
+                } catch (error) {
+                    showError(
+                        "Payment may have succeeded, but verification failed. " +
+                        "Please contact support before attempting another payment. " +
+                        `${error.message || ""}`
+                    );
+                } finally {
+                    placeOrderButton.disabled = false;
+                    placeOrderButton.textContent = "Place Order";
+                }
+            },
+
+            modal: {
+                ondismiss: async function () {
+                    try {
+                        const result = await apiRequest(
+                            `/payments/orders/${order.id}/cancel`,
+                            { method: "POST" }
+                        );
+
+                        // Clear the saved ID only after confirmed cancellation.
+                        clearPendingOrderId();
+
+                        showSuccess(
+                            result.message ||
+                            "Order cancelled and stock restored."
+                        );
+                    } catch (error) {
+                        console.error(
+                            "Order cancellation failed:",
+                            error
+                        );
+
+                        showError(
+                            "Checkout was closed, but cancellation could not " +
+                            "be confirmed. Please check your order status."
+                        );
+                    } finally {
+                        placeOrderButton.disabled = false;
+                        placeOrderButton.textContent = "Place Order";
+                    }
+                }
+            },
+
+            theme: {
+                color: "#2563eb"
+            }
+        };
+
+        const checkout = new Razorpay(options);
+
+        // Keep only one payment.failed handler.
+        checkout.on("payment.failed", function (response) {
+            placeOrderButton.disabled = false;
+            placeOrderButton.textContent = "Place Order";
+
+            showError(
+                response.error?.description ||
+                "Payment failed. Your order may still exist; " +
+                "check its status before retrying."
+            );
+        });
+
+        checkout.open();
+
     } catch (error) {
         showError(
             error.message ||
-            "Unable to place order. Please review stock and try again."
+            "Unable to initiate checkout. Check your order and payment status."
         );
-    } finally {
+
         placeOrderButton.disabled = false;
         placeOrderButton.textContent = "Place Order";
     }
@@ -254,12 +395,14 @@ function loadUserInformation() {
 
     userEmail.textContent = user.email || "User";
     userRole.textContent = user.role || "customer";
-    userInitial.textContent = (user.email || "U").charAt(0).toUpperCase();
+    userInitial.textContent =
+        (user.email || "U").charAt(0).toUpperCase();
 
     if (String(user.role || "").toLowerCase() === "admin") {
         adminNavigation.classList.remove("hidden");
         placeOrderButton.classList.add("hidden");
-        cartDescription.textContent = "Cart ordering is available for customers.";
+        cartDescription.textContent =
+            "Cart ordering is available for customers.";
     }
 }
 

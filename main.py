@@ -10,6 +10,7 @@ from app.routes.orders import router as order_router
 from app.routes.users import router as user_router
 from app.routes.events import router as event_router
 from app.routes.notifications import router as noti_router
+from app.routes.payments import router as pay_router
 
 
 
@@ -21,6 +22,7 @@ app.include_router(order_router)
 app.include_router(user_router)
 app.include_router(event_router)
 app.include_router(noti_router)
+app.include_router(pay_router)
 
 
 @app.get("/")

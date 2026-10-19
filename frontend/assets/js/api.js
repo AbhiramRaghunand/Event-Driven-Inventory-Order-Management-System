@@ -195,6 +195,27 @@ async function createOrder(items) {
     );
 }
 
+/* ============================================================
+   PAYMENTS
+   ============================================================ */
+
+async function createPaymentOrder(orderId) {
+    return apiRequest(`/payments/orders/${orderId}`, {
+        method: "POST"
+    });
+}
+
+async function verifyPayment(paymentDetails) {
+    return apiRequest("/payments/verify", {
+        method: "POST",
+        body: JSON.stringify({
+            razorpay_order_id: paymentDetails.razorpay_order_id,
+            razorpay_payment_id: paymentDetails.razorpay_payment_id,
+            razorpay_signature: paymentDetails.razorpay_signature
+        })
+    });
+}
+
 /* USERS */
 
 async function getUsers() {

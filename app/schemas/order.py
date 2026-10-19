@@ -1,6 +1,7 @@
 from pydantic import BaseModel,Field
 from app.models.order import Status
 from datetime import datetime
+from decimal import Decimal
 
 class OrderItemCreate(BaseModel):
     product_id:int
@@ -14,6 +15,7 @@ class OrderItemResponse(BaseModel):
     id:int
     product_id: int
     quantity: int
+    unit_price: Decimal
 
 class OrderResponse(BaseModel):
     id: int
@@ -21,3 +23,4 @@ class OrderResponse(BaseModel):
     status: Status
     created_at: datetime
     items: list[OrderItemResponse]
+  
