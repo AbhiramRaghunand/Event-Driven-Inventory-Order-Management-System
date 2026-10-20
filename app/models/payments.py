@@ -1,21 +1,42 @@
-from enum import Enum as PyEnum 
 
-from sqlalchemy import Column, Integer, String, Numeric, Enum, DateTime, ForeignKey, CheckConstraint, UniqueConstraint
+from enum import Enum as PyEnum
+
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    Numeric,
+    Enum,
+    DateTime,
+    ForeignKey,
+    CheckConstraint,
+    UniqueConstraint,
+)
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
+
 from app.core.database import Base
 
+
 class PaymentStatus(PyEnum):
-    CREATED="created"
-    PENDING="pending"
-    SUCCESS="success"
-    FAILED="failed"
-    REFUNDED="refunded"
+    CREATED = "created"
+    PENDING = "pending"
+    SUCCESS = "success"
+    FAILED = "failed"
+    REFUNDED = "refunded"
+
+
+class RefundStatus(PyEnum):
+    NOT_REQUIRED = "not_required"
+    PENDING = "pending"
+    PROCESSED = "processed"
+    FAILED = "failed"
+
 
 class Payment(Base):
-    __tablename__="payments"
+    __tablename__ = "payments"
 
-    __table_args__=(
+    __table_args__ = (
         CheckConstraint(
             "amount > 0",
             name="ck_payment_amount_positive",
@@ -27,6 +48,18 @@ class Payment(Base):
         UniqueConstraint(
             "provider_payment_id",
             name="uq_payment_provider_payment_id",
+        ),
+        UniqueConstraint(
+            "provider_refund_id",
+            name="uq_payment_provider_refund_id",
+        ),
+        UniqueConstraint(
+            "refund_idempotency_key",
+            name="uq_payment_refund_idempotency_key",
+        ),
+        CheckConstraint(
+            "refund_amount IS NULL OR refund_amount > 0",
+            name="ck_payment_refund_amount_positive",
         ),
     )
 
@@ -52,6 +85,33 @@ class Payment(Base):
 
     provider_order_id = Column(String(100), nullable=True)
     provider_payment_id = Column(String(100), nullable=True)
+
+    # Refund tracking is separate from the original payment status.
+    provider_refund_id = Column(String(100), nullable=True)
+
+    refund_amount = Column(Numeric(10, 2), nullable=True)
+
+    refund_status = Column(
+        String(20),
+        nullable=False,
+        default=RefundStatus.NOT_REQUIRED.value,
+        server_default=RefundStatus.NOT_REQUIRED.value,
+    )
+
+    # Reuse this key when retrying an uncertain refund request.
+    refund_idempotency_key = Column(String(100), nullable=True)
+
+    refund_error = Column(String(500), nullable=True)
+
+    refund_created_at = Column(
+        DateTime(timezone=True),
+        nullable=True,
+    )
+
+    refund_updated_at = Column(
+        DateTime(timezone=True),
+        nullable=True,
+    )
 
     created_at = Column(
         DateTime(timezone=True),
