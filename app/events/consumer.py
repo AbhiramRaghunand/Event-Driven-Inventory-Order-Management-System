@@ -99,6 +99,22 @@ def consume_event() -> Event | None:
             db.add(notification)
             db.commit()
 
+        elif event.event_type == EventType.REFUND_STATUS_UPDATED:
+            refund_status = event.data.get("refund_status", "pending")
+            order_id = event.data.get("order_id")
+            if refund_status == "processed":
+                message = f"Your refund for order #{order_id} has been processed by the payment provider. Bank processing time may vary."
+            elif refund_status == "failed":
+                message = f"Your refund for order #{order_id} could not be processed. Please retry or contact support."
+            else:
+                message = f"Your refund for order #{order_id} has been initiated and is being processed."
+            db.add(Notification(
+                user_id=event.data["user_id"],
+                event_type=EventType.REFUND_STATUS_UPDATED.value,
+                message=message,
+            ))
+            db.commit()
+
         elif event.event_type == EventType.LOW_STOCK:
             print(f"LOW STOCK ALERT: {event.data}")
 

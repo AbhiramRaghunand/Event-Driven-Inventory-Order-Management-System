@@ -18,6 +18,7 @@ from app.events.events import Event, EventType
 from app.events.publisher import publish_event
 from app.models.order_item import OrderItem
 from app.models.product import Product
+from app.services.refunds import process_refund
 
 router = APIRouter(prefix="/payments", tags=["Payments"])
 
@@ -420,3 +421,72 @@ def cancel_unpaid_order(
         "status": order.status.value,
     }
 
+
+
+@router.get("/orders/{order_id}/refund")
+def get_refund_status(
+    order_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    order = db.query(Order).filter(Order.id == order_id).first()
+    if order is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found")
+    if current_user.role != UserRole.ADMIN and order.user_id != current_user.id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You can only view your own refund status")
+    payment = db.query(Payment).filter(Payment.order_id == order.id).order_by(Payment.id.desc()).first()
+    if payment is None:
+        return {"order_id": order.id, "refund_status": "not_required", "refund_id": None, "refund_amount": None}
+    return {
+        "order_id": order.id,
+        "payment_id": payment.id,
+        "payment_status": payment.status.value,
+        "refund_id": payment.provider_refund_id,
+        "refund_amount": str(payment.refund_amount) if payment.refund_amount is not None else None,
+        "refund_status": payment.refund_status,
+        "refund_error": payment.refund_error,
+        "refund_created_at": payment.refund_created_at,
+        "refund_updated_at": payment.refund_updated_at,
+    }
+
+
+@router.post("/orders/{order_id}/refund/retry")
+def retry_order_refund(
+    order_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    order = (
+        db.query(Order)
+        .filter(Order.id == order_id)
+        .with_for_update()
+        .first()
+    )
+    if order is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found")
+    if current_user.role != UserRole.ADMIN and order.user_id != current_user.id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You can only retry refunds for your own orders")
+    if order.status != Status.CANCELLED:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Only cancelled orders can be refunded")
+
+    payment = (
+        db.query(Payment)
+        .filter(Payment.order_id == order.id)
+        .order_by(Payment.id.desc())
+        .with_for_update()
+        .first()
+    )
+    if payment is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No payment record exists for this order")
+    if payment.status not in (PaymentStatus.SUCCESS, PaymentStatus.REFUNDED):
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="This order does not have a successfully paid payment to refund")
+
+    try:
+        result = process_refund(db, payment, order, allow_retry=True)
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(exc)) from exc
+    except Exception as exc:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail="Could not reconcile refund status. Please retry shortly.") from exc
+    return {"message": "Refund status checked", **result}

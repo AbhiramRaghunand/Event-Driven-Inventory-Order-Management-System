@@ -780,19 +780,17 @@ async function confirmOrderCancellation() {
 
     try {
 
-        await apiRequest(
+        const result = await apiRequest(
             `/orders/${orderId}`,
             {
                 method: "DELETE"
             }
         );
 
-
         closeCancelOrderModal();
 
-
         showSuccessMessage(
-            `Order #${orderId} cancelled successfully.`
+            result?.message || `Order #${orderId} cancelled successfully.`
         );
 
 
